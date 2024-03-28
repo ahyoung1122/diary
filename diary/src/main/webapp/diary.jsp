@@ -116,7 +116,6 @@ background-image: url("./image/jerry.png");
 				color : blue;
 		}
 		a {
-			
 			font-weight: bolder;
 			color : gray;
 			 text-decoration: none;
@@ -129,6 +128,10 @@ background-image: url("./image/jerry.png");
 		a:hover {
 		 	color : white;
 		 	background-color: orange;
+		}
+		.foodList a{
+		background-color: #9FC93C;
+		color : white;
 		}
 	li{
 	list-style-type:  circle;
@@ -179,6 +182,8 @@ background-image: url("./image/jerry.png");
 					<li>loginForm</li>
 					<li>addDiaryForm</li>
 				</ul>
+					<div class="foodList"><a href="./statsLunch.jsp">음식통계LIST</a></div>
+					<div class="list"><a href="./diaryList.jsp">내 일기 LIST</a></div>
 				   <div class="logout"><a href="/diary/logout.jsp">로그아웃</a></div>
 				</div>
 			<div class="mt-5 col-5 bg-white border shadow p-3 mb-5 bg-body-tertiary rounded">	
@@ -186,7 +191,6 @@ background-image: url("./image/jerry.png");
               	&nbsp;<%=tMonth+1 %>월 DIARY&nbsp;
               	</span>
               	<div class="il"><a href="./addDiaryForm.jsp">일기쓰기</a></div>
-              	<div class="list"><a href="./diaryList.jsp">내 일기 LIST</a></div>
               	</div>
 	<div class="cell2" style = "color : red;">일요일</div>
 	<div class="cell2">월요일</div>

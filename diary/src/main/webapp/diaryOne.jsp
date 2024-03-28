@@ -98,7 +98,7 @@ th{
 								<br>
 								
 								<a href="/diary/updateDiaryForm.jsp?diary_date=<%=diaryDate%>" class="btn btn-outline-dark">일기수정</a>
-								<a href="/diary/deleteDiaryForm.jsp?diary-date=<%=diaryDate%>" class="btn btn-outline-dark">일기삭제</a>
+								<a href="/diary/deleteDiaryAction.jsp?diary_date=<%=diaryDate%>" class="btn btn-outline-dark">일기삭제</a>
 					
 						<%		
 							} else {

@@ -91,7 +91,7 @@ color : #BD5C24;
 						<form method="post" action="/diary/checkDateAction.jsp">
 								<div>
 									날짜확인 <input type = "date" name="checkDate" value ="<%=checkDate%>">
-									<span><%=msg%></span>
+									<span><%=msg%></span >
 								</div>
 								<button type="submit" style="background-color: #BD5C24; color : ivory; border: 1px solid #BD5C24;">
 									날짜가능확인
