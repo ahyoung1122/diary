@@ -59,6 +59,11 @@
 			*{
 			font-family: CookieRun;
 			}
+			a{
+			text-decoration: none;
+			background-color: pink;
+			color : ivory;
+			}
 	</style>
 </head>
 <body>
@@ -76,6 +81,7 @@
 			<div class="col-2"></div>
 				<div class="mt-5 col-4 bg-black border shadow p-3 mb-5 bg-body-tertiary rounded" >
 					<div><a href="./diary.jsp">뒤로가기</a></div>
+					<div><a href="./lunchOne.jsp">상세보기</a></div>
 					<h2 style="color : #420100;">
 						점심메뉴 통계🐹
 					</h2>

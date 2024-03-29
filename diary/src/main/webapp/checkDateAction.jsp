@@ -5,12 +5,12 @@
 //인증 분기코드
 //0.로그인(인증)분기 
 	//diary.login.my_session =? "OFF" =>redirect("loginForm.jsp")
-		String loginMember = (String)(session.getAttribute("loginMember"));
-				if(loginMember == null){
-				String errMsg = URLEncoder.encode("잘못된 접근 입니다. 로그인 먼저 해주세요", "utf-8");
-				return;// 코드 진행을 끝내는 문법 
+String loginMember = (String)(session.getAttribute("loginMember"));
+		if(loginMember == null){
+		String errMsg = URLEncoder.encode("잘못된 접근 입니다. 로그인 먼저 해주세요", "utf-8");
+		 response.sendRedirect("./loginForm.jsp?errMsg="+errMsg);
+		return;// 코드 진행을 끝내는 문법 
 		}
-
 /* 	String sql1 = "select my_session mySession from login"; //my_session에서 가져옴 */
 	//mySession은 별칭 my_session은 login table안에 있는값
 /* 	Class.forName("org.mariadb.jdbc.Driver");

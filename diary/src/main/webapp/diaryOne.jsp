@@ -6,20 +6,21 @@
 
 String diaryDate = request.getParameter("diaryDate");
 
-String sql = "SELECT feeling, title, weather,content FROM diary WHERE diary_date = ?";
-System.out.println(sql);
+Class.forName("org.mariadb.jdbc.Driver");
+/* String sql = "SELECT feeling, title, weather,content FROM diary WHERE diary_date = ?"; 
+System.out.println(sql);*/
 //연결시키기
 Connection conn = null;
-PreparedStatement stmt = null;
 conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
-stmt = conn.prepareStatement(sql);
+
+System.out.println(diaryDate+"<-diaryDate");
+String sql="select * from diary WHERE diary_date = ?";
+PreparedStatement stmt = conn.prepareStatement(sql);
 
 stmt.setString(1, diaryDate);
 
 System.out.println(stmt+"=stmt");
-
-ResultSet rs=null; 
-rs = stmt.executeQuery();
+ResultSet rs = stmt.executeQuery();
 
 
 %>
@@ -39,6 +40,8 @@ background-image: url("./image/jerry.png");
 	}
 	a{
 	text-decoration: none;
+	color : ivory;
+	background-color: pink;
 	}
 	p{text-align: right;}
 #ge {
@@ -103,10 +106,47 @@ th{
 						<%		
 							} else {
 						%>
-								<div><%=diaryDate%> 날짜의 글을 존재하지 않습니다.</div>
+								<div><%=diaryDate%> 날짜의 글은 존재하지 않습니다.</div>
 						<%		
 							}
 						%>
+						<hr>
+						<!-- 댓글추가폼 -->
+						<div>
+							<form method="post" action="/diary/addCommentAction.jsp">
+								<input type="hidden" name="diaryDate" value="<%=diaryDate %>">
+								<textarea rows="2" cols="50" name="memo"></textarea>
+								<br>
+								<button type="submit">댓글입력</button>
+							</form>
+						</div>
+						<hr>
+						<!-- 댓글리스트 -->
+						<% 					
+							String sql2 = "SELECT comment_no commentNo, memo, create_date createDate from comment where diary_date=?";
+							PreparedStatement stmt2= null;
+							ResultSet rs2 = null;
+							
+							stmt2 = conn.prepareStatement(sql2);
+							stmt2.setString(1, diaryDate);
+							rs2 = stmt2.executeQuery();
+						%>
+						<table border = "1">
+								<%
+									while(rs2.next()){
+								%>
+										<tr>
+											<td><%=rs2.getString("memo") %></td>
+											<td><%=rs2.getString("createDate") %></td>
+											<!-- 여기서 삭제를 하려면 commentNo랑, 주소창 url값인 diaryDate 또한 넘겨주어야 한다. -->
+											<td><a href='./deleteComment.jsp?commentNo=<%=rs2.getInt("commentNo")%>&diaryDate=<%=diaryDate%>'>삭제</a>
+											</td>
+											
+										</tr>
+								<%
+									}
+								%>
+						</table>
 								
 		</div><!-- col마지막 -->
 				<div class="col-3"></div>

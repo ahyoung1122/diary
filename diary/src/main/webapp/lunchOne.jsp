@@ -6,10 +6,10 @@
 	// diary.login.my_session => 'OFF' => redirect("loginForm.jsp")
 		String loginMember = (String)(session.getAttribute("loginMember"));
 		if(loginMember == null){
-					String errMsg = URLEncoder.encode("잘못된 접근 입니다. 로그인 먼저 해주세요", "utf-8");
-					return;// 코드 진행을 끝내는 문법 
+		String errMsg = URLEncoder.encode("잘못된 접근 입니다. 로그인 먼저 해주세요", "utf-8");
+		 response.sendRedirect("./loginForm.jsp?errMsg="+errMsg);
+		return;// 코드 진행을 끝내는 문법 
 		}
-	
 	
 	String sql1 = "select my_session mySession from login";
 	/* 
@@ -35,7 +35,9 @@ WHERE lunch_date = CURDATE(); */
 	PreparedStatement stmt1 = null;
 	ResultSet rs1 = null;
 	conn = DriverManager.getConnection(
-			"jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
+	"jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
+	
+	
  	String sql2 = "SELECT lunch_date lunchDate, menu From lunch WHERE lunch_date = CURDATE()";
 	PreparedStatement stmt2 = null;
 	ResultSet rs2 = null;
@@ -95,35 +97,54 @@ VALUES(CURDATE(), ?, NOW(), NOW()); */
 						오늘의 점심메뉴 투표🐹
 					</h2>
 						<hr>
-						<form method ="get" action="./statsLunchCheck.jsp">
+						<form method ="get" action="./lunchOneAction.jsp">
 							<div>
 								날짜를 선택하기
 							</div>
 								<span><%=msg %></span>
 									<input type="date" name="lunchDate" value="<%=lunchDate%>">
 										<button type="submit">확인하기</button>
-								
 						</form>
 								<!-- 확인하는 날짜에 입력된 값이
 								없다면 점심메뉴 투표하기 -->
 								<!-- 확인하는 날짜에 입력된 값이 있다면? "이미 투표하셨습니다" 띄우기 -->
+					<%
+						if(ck.equals("T")){
+					%>	
+						<div>
+						<form method="post" action="./lunchOneAction.jsp">
+						날짜: 		
 							<%
-								if(lunchDate.equals("")){
+								if(ck.equals("T")){
 							%>
-									<div>점심 메뉴 투표하기</div>
-									<input type="radio" name="lunch" value="han">한식
-									<input type="radio" name="lunch" value="yang">양식
-									<input type="radio" name="lunch" value="il">일식
-									<input type="radio" name="lunch" value="jung">중식
-									<input type="radio" name="lunch" value="gi">기타
-							
-							<%
+								<input type="text" name="lunchDate" value="<%=lunchDate%>">
+							<% 
+								}else{
+							%>		
+								<input type="text" name="lunchDate">
+							<%	
 								}
 							%>
-						
-							
-					
-					
+						<br>
+						메뉴 :
+						<input type="radio" name="menu" value="한식"> 한식
+						<input type="radio" name="menu" value="양식"> 양식
+						<input type="radio" name="menu" value="일식"> 일식
+						<input type="radio" name="menu" value="중식"> 중식
+						<input type="radio" name="menu" value="구내식당"> 기타
+						<br>
+						<div><input type="text" name="shopName">식당이름</div>
+				
+						<button type="submit">투표</button>
+						</form>
+						</div>	
+					<% 
+					}else{
+					%>	
+					<% 
+					}
+					%>
+								
 				</div><!-- col마지막 -->
 			<div class="col-3"></div>
 		</div><!-- row -->
