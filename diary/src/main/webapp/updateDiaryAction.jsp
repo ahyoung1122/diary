@@ -2,6 +2,9 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.net.*"%>
 <%
+
+request.setCharacterEncoding("utf-8");        
+
 //diary_date, title, weather, content 가져오기
 String diaryDate = request.getParameter("diaryDate");
 String feeling = request.getParameter("feeling");

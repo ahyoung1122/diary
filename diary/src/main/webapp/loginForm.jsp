@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@page import="java.net.*"%>
 <%@ page import="java.sql.*" %>
 <%
    //0.로그인(인증)분기 
    //diary.login.my_session =? "OFF" =>redirect("loginForm.jsp")
    
-   String sql1 = "select my_session mySession from login"; //my_session에서 가져옴
+ /*   String sql1 = "select my_session mySession from login"; //my_session에서 가져옴
    //mySession은 별칭 my_session은 login table안에 있는값
    Class.forName("org.mariadb.jdbc.Driver");
    Connection conn = null;
@@ -28,10 +29,24 @@
    
    rs1.close();
    stmt1.close();
-   conn.close();
+   conn.close();*/
    
-   String errMsg = request.getParameter("errMsg"); //diay.jsp에서 받아오는 요청값이라서 작성해주어야한다.
-   
+   //지금까지는 DB를 사용해서 로그인을 구현하였고 앞으로는 session을 이용하여 로그인구현할것
+   //로그인(인증)분기 Session사용으로 변경
+   //로그인 사용시 session에 loginMember라는 변수를 만들고 값으로 로그인 아이디를 저장
+   String loginMember = (String)(session.getAttribute("loginMember")); 
+  //getAttribute 메소드는 찾는 변수가없으면 null값을 반환한다.
+  //null이면 로그아웃상태, null이 아니면 로그인 상태
+  //여기loginForm에서는 null값이어야만 출력이가능하다->로그아웃상태
+  System.out.println(loginMember + " ");
+  
+  if(loginMember != null){
+	  response.sendRedirect("/diary/diary.jsp");
+	  return;//메서드 끝날때 사용함(코드 진행 끝내는 문법) 생략하지말고 꼭 적어주자
+  }
+  
+  //요청값 작성
+  String errMsg = request.getParameter("errMsg"); //diary.jsp에서 받아오는 요청값이라서 작성해주어야한다. 
 %>
 
 <!DOCTYPE html>

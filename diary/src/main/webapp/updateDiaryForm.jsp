@@ -4,6 +4,13 @@
 <%
 String diaryDate = request.getParameter("diary_date");
 
+String loginMember = (String)(session.getAttribute("loginMember"));
+if(loginMember == null){
+String errMsg = URLEncoder.encode("잘못된 접근 입니다. 로그인 먼저 해주세요", "utf-8");
+ response.sendRedirect("./loginForm.jsp?errMsg="+errMsg);
+return;// 코드 진행을 끝내는 문법 
+}
+
 String sql = "SELECT feeling, title, weather,content FROM diary WHERE diary_date = ?";
 System.out.println(sql);
 //연결시키기
@@ -18,7 +25,7 @@ System.out.println(stmt+"=stmt");
 
 ResultSet rs=null; 
 rs = stmt.executeQuery();
-
+ 
 
 %>
 <%

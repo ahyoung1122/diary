@@ -6,7 +6,7 @@
 	//0.로그인(인증)분기 
 	//diary.login.my_session =? "OFF" =>redirect("loginForm.jsp")
 	
-	String sql1 = "select my_session mySession from login"; //my_session에서 가져옴
+/* 	String sql1 = "select my_session mySession from login"; //my_session에서 가져옴
 	//mySession은 별칭 my_session은 login table안에 있는값
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = null;
@@ -26,12 +26,30 @@
 		stmt1.close();
 		conn.close();
 		return;//메서드 끝날때 사용함(코드 진행 끝내는 문법) 생략하지말고 꼭 적어주자
-	}
-	
-	//1.요청값 분석(loginForm에서 무엇이 넘어올것인지 잘 생각해봐)
+	} */
+	String loginMember = (String)(session.getAttribute("loginMember")); 
+	  //getAttribute 메소드는 찾는 변수가없으면 null값을 반환한다.
+	  //null이면 로그아웃상태, null이 아니면 로그인 상태
+	  //여기loginForm에서는 null값이어야만 출력이가능하다->로그아웃상태
+	  System.out.println(loginMember + " ");
+	  
+	  if(loginMember != null){
+		  response.sendRedirect("/diary/diary.jsp");
+		  return;//메서드 끝날때 사용함(코드 진행 끝내는 문법) 생략하지말고 꼭 적어주자
+	  }
+	  
+	  //loginMember가 null 이다 ->session공간에 loginMember변수를 생성...
+%>
+<%
+	//1.요청값 분석(loginForm에서 무엇이 넘어올것인지 잘 생각해봐) ->로그인 성공 - >session에 loginMember변수를 생성
 		String memberId = request.getParameter("memberId");
 		String memberPw = request.getParameter("memberPw");
 		
+		Class.forName("org.mariadb.jdbc.Driver");
+		Connection conn = null;
+		PreparedStatement stmt1 = null;
+		ResultSet rs1 = null;
+		conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
 		
 		String sql2 = "select member_id memberId from member where member_id=? and member_pw=?";
 		PreparedStatement stmt2 = null;
@@ -47,11 +65,14 @@
 				//로그인 성공 
 				//diary.login.my_session값을 -> "ON"으로 변경//stmt3를 만들고 updateQuery하나 만들어준다 그리고 diary.jsp로 연결하면 됨.
 				System.out.println("로그인 성공");
-				String sql3 = "update login set my_session = 'ON', on_date = NOW() "; 
+			/* 	String sql3 = "update login set my_session = 'ON', on_date = NOW() "; 
 				PreparedStatement stmt3 = conn.prepareStatement(sql3);
 				
 				int row = stmt3.executeUpdate();
-				System.out.println(row+"<--row");
+				System.out.println(row+"<--row"); */
+				//로그인 성공시 DB값 설정 -> session변수 세팅으로 변경 
+				session.setAttribute("loginMember", rs2.getString("memberId"));
+				
 				response.sendRedirect("/diary/diary.jsp");
 				
 		}else{
@@ -62,11 +83,11 @@
 		}
 		
 	
-	rs1.close();
+/* 	rs1.close();
 	stmt1.close();
 	rs2.close();
 	stmt2.close();
-	conn.close();
+	conn.close(); */
 	
 	
 %>

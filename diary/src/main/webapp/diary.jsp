@@ -4,14 +4,23 @@
 <%@ page import = "java.util.*" %>
 <%
 	// 0. 로그인(인증) 분기
+	String loginMember = (String)(session.getAttribute("loginMember"));
+		if(loginMember == null){
+					String errMsg = URLEncoder.encode("잘못된 접근 입니다. 로그인 먼저 해주세요", "utf-8");
+					response.sendRedirect("/diary/loginForm.jsp?errMsg="+errMsg);
+					return;// 코드 진행을 끝내는 문법 
+		}
+	
 	// diary.login.my_session => 'OFF' => redirect("loginForm.jsp")
 	
-	String sql1 = "select my_session mySession from login";
+	/* String sql1 = "select my_session mySession from login"; */
 	//mySession은 별칭 my_session은 login table안에 있는값
 	//인수 : java에서는 _바를 안쓰기 때문에 카멜방식을 사용한다 원래라면 "select my_session from login"인데 mySession으로 변수값을 바꿔준것.!!
 	//선생님 : db에서는 카멜 방식을 사용할 수 없기 때문에 java에서는 _바를 사용해야한다.
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
+	
+	
+/* 	Class.forName("org.mariadb.jdbc.Driver"); */
+	/* Connection conn = null;
 	PreparedStatement stmt1 = null;
 	ResultSet rs1 = null;
 	conn = DriverManager.getConnection(
@@ -27,10 +36,14 @@
 		String errMsg = URLEncoder.encode("잘못된 접근 입니다. 로그인 먼저 해주세요", "utf-8");
 		response.sendRedirect("/diary/loginForm.jsp?errMsg="+errMsg);
 		return; // 코드 진행을 끝내는 문법 ex) 메서드 끝낼때 return사용
-	}
+	} */
 	
 	
 	// 달력 API
+	Class.forName("org.mariadb.jdbc.Driver");
+	Connection conn = null;
+	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/diary", "root", "java1234");
+	
 	String targetYear = request.getParameter("targetYear");
 	String targetMonth = request.getParameter("targetMonth");
 	

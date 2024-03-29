@@ -2,7 +2,8 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.net.*"%>
 <%
-request.setCharacterEncoding("utf-8");        
+request.setCharacterEncoding("utf-8"); 
+
 //1.요청값
 String diaryDate = request.getParameter("diaryDate");
 String title = request.getParameter("title");
